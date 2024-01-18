@@ -8,6 +8,10 @@
   ;; cdr 返回列表中的第 2 个元素
   (cdr
     (assoc name org-link-abbrev-alist)))
+(defun zhdir(abbrev subpath)
+  "返回缩写加子路径的全路径"
+  (concat (zhname abbrev) subpath))
+
 ;; 时间函数 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 计算 n 天的时间
 (defun offset_days(n)
@@ -115,11 +119,13 @@ week: 是否有星期的信息，nil 没有，其它值有
   (interactive)
   (org-shifttab)       ; 整体折叠
   (beginning-of-buffer); 光标移到开头
-  (let* ((today (zh-title-str (current-time)))
-	 (yestoday (zh-title-str (offset_days -1))))
-    (if (search-forward today nil t) ; 查找当天日期的标题
-      ()
-      (search-forward yestoday nil t))
+  (let* ((i 0)
+	 (found nil))
+    (while (and (> i -100) (not found)) ; 循环查找对应的日期, 最多 100 次
+      (let ((date-str (zh-title-str (offset_days i))))
+	(when (search-forward date-str nil t) ; 找到就跳出循环
+	  (setq found t)))
+      (setq i (- i 1)))
     (org-cycle)))      ; 执行一轮 org-cycle
 
 (defun zh-open-note-notwork--- ()
