@@ -1,5 +1,5 @@
 ﻿(column-number-mode t)         ;显示列号
-(global-display-line-numbers-mode t)   ;列前显示行号
+(global-display-line-numbers-mode)   ;列前显示行号
 (global-tab-line-mode t)       ;显示 buffer tab
 (setq make-backup-files nil)        ;不创建备份文件
 ; (auto-image-file-mode nil) ;打开图片显示功能
@@ -7,11 +7,20 @@
 (setq org-image-actual-width '(800)); 设置图片默认显示大小
 (setq org-startup-with-inline-images t) ; 让图片在加载 buffer 时就显示
 
+
+;; 设置一些文件前缀
+(setq d_nut "d:\\eachcloud\\nut\\nutsb\\")
+(setq d_soho "d:\\workspaces\\github\\qinglangee\\soho_scripts\\")
+(setq py_tpl (concat d_soho "templates\\python\\templates\\"))
+(setq py_demo (concat d_nut "code\\python\\demo_project\\"))
 ;; 设置各种链接前缀
 (setq org-link-abbrev-alist
-      `(("noteimg" . "d:\\eachcloud\\nut\\nutsb\\notes\\imgs\\")
-        ("nut" . "d:\\eachcloud\\nut\\nutsb\\")
-        ("python_templates" . "d:\\workspaces\\github\\qinglangee\\soho_scripts\\templates\\python\\templates\\")))
+      ;;  [`] 开头的列表，内部可以用 [,] 表示对列表进行求值，否则列表不会求值。 如 [,(concat d_nut "abc")]
+      `(("nut" . ,d_nut)
+	("noteimg" . ,(concat d_nut "notes\\imgs\\"))
+        ("python_templates" . ,py_tpl)
+        ("py_tpl" . ,py_tpl)
+        ("py_demo" . ,py_demo)))
 
 (cua-mode) ; CUA 模式，使用C-c v x z 同一般软件那样
 (setq org-support-shift-select t) ; select 可以选择内容
