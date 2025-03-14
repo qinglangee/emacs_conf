@@ -79,11 +79,13 @@
 	 (in_time (offset_days offset))
 	 (liangong_from (encode-time 0 0 0 4 11 2022))
 	 (liangong_day (diff_days liangong_from in_time))
-	 (jieyan_from (encode-time 0 0 0 4 12 2023))
+	 (jieyan_from (encode-time 0 0 0 9 2 2025))
 	 (jieyan_day (diff_days jieyan_from in_time))
 	 (daily-str (format "\n\n## daily daily\n%s\n又是没练功的一天 %d 超一年了\n第%d天" (zh-lucky-number) liangong_day jieyan_day))
 	 (title-str (zh-title-str in_time 1)))
-    (insert (concat title-str daily-str))))
+    (insert (concat title-str daily-str)))
+  (forward-line -4)
+  (zh-insert-hour-minute))
 ; 
 
 
@@ -126,7 +128,8 @@ week: 是否有星期的信息，nil 没有，其它值有
 	(when (search-forward date-str nil t) ; 找到就跳出循环
 	  (setq found t)))
       (setq i (- i 1)))
-    (org-cycle)))      ; 执行一轮 org-cycle
+    (org-cycle)) ; 执行一轮 org-cycle
+  (search-forward "## daily daily"))
 
 (defun zh-open-note-notwork--- ()
   "在指定目录 DIR 中打开文件, 默认是 notes 目录"

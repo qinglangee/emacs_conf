@@ -7,3 +7,4 @@
 (defun zhman ()(interactive) (find-file "d:/eachcloud/nut/nutsb/wordpress/emacs/2023-11-03-manual.org"))
 
 (defun zhdiary ()(interactive) (find-file "d:/eachcloud/nut/nutsb/record/diary/2023.org"))
+(defun zhlang()(interactive) (find-file "d:/eachcloud/nut/nutsb/notes/langyang.org"))

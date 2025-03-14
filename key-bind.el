@@ -29,6 +29,6 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 ; 快捷键设置
-(global-set-key (kbd "C-s") 'save-buffer)
+;(global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-x C-s") 'isearch-forward)
 

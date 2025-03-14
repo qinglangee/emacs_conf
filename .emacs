@@ -11,6 +11,7 @@
 ;; 设置一些文件前缀
 (setq d_nut "d:\\eachcloud\\nut\\nutsb\\")
 (setq d_soho "d:\\workspaces\\github\\qinglangee\\soho_scripts\\")
+(setq java_tpl (concat d_soho "templates\\java\\"))
 (setq py_tpl (concat d_soho "templates\\python\\templates\\"))
 (setq py_demo (concat d_nut "code\\python\\demo_project\\"))
 ;; 设置各种链接前缀
@@ -18,6 +19,7 @@
       ;;  [`] 开头的列表，内部可以用 [,] 表示对列表进行求值，否则列表不会求值。 如 [,(concat d_nut "abc")]
       `(("nut" . ,d_nut)
 	("noteimg" . ,(concat d_nut "notes\\imgs\\"))
+        ("java_tpl" . ,java_tpl)
         ("python_templates" . ,py_tpl)
         ("py_tpl" . ,py_tpl)
         ("py_demo" . ,py_demo)))
@@ -70,8 +72,8 @@
 ;(set-selection-coding-system 'utf-8)
 
 ;; 设置viper模式
-(setq viper-mode t)
-(require 'viper)
+;(setq viper-mode t)
+;(require 'viper)
 
 ;; org mode 设置
 (setq org-log-done 'time) ; TODO 结束时自动加入时间
