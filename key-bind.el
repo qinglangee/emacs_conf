@@ -29,6 +29,7 @@
 (global-set-key (kbd "C-c c") #'org-capture)
 
 ; 快捷键设置
-;(global-set-key (kbd "C-s") 'save-buffer)
+; C-s 本来是 isearch-forward, 这个可以用 C-x C-s 也可以 vim 模式用 / 查询
+(global-set-key (kbd "C-s") 'save-buffer)
 (global-set-key (kbd "C-x C-s") 'isearch-forward)
 

@@ -10,6 +10,7 @@
 
 ;; 设置一些文件前缀
 (setq d_nut "d:\\eachcloud\\nut\\nutsb\\")
+(setq emacs_img_folder "d:/workspaces/emacs_img/")
 (setq d_soho "d:\\workspaces\\github\\qinglangee\\soho_scripts\\")
 (setq java_tpl (concat d_soho "templates\\java\\"))
 (setq py_tpl (concat d_soho "templates\\python\\templates\\"))
@@ -18,13 +19,14 @@
 (setq org-link-abbrev-alist
       ;;  [`] 开头的列表，内部可以用 [,] 表示对列表进行求值，否则列表不会求值。 如 [,(concat d_nut "abc")]
       `(("nut" . ,d_nut)
+	("emacs_img_folder" . ,emacs_img_folder)
 	("noteimg" . ,(concat d_nut "notes\\imgs\\"))
         ("java_tpl" . ,java_tpl)
         ("python_templates" . ,py_tpl)
         ("py_tpl" . ,py_tpl)
         ("py_demo" . ,py_demo)))
-
-(cua-mode) ; CUA 模式，使用C-c v x z 同一般软件那样
+; 参数是nil,忽略,正数时，启动 CUA, 0和负数时关闭 CUA, 参数是 toggle 时就来回切换
+(cua-mode 1) ; CUA 模式，使用C-c v x z 同一般软件那样
 (setq org-support-shift-select t) ; select 可以选择内容
 
 
@@ -53,11 +55,18 @@
    ("\\.tmpl?\\'" . emacs)
    ("\\.pdf\\'" . default)))
 
+;; 加载 ob-mermaid 插件， 设置 mermaid-cli 命令位置， 下面开启语言时要用
+(load-file "~/.emacs.d/private/ob-mermaid-master/ob-mermaid.el")
+(setq ob-mermaid-cli-path "e:\\in\\nodejs\\mmdc.cmd")
+
 ;;  开启对语言代码执行功能
 (org-babel-do-load-languages
   'org-babel-load-languages
   '((emacs-lisp . t)
     (R . t)
+    (dot . t)  ;; dot 需要安装 graphviz, choco install graphviz
+    (plantuml .t)
+    (mermaid . t)
     (python . t)))
 
 ;(mouse-avoidance-mode 'animate);光标靠近鼠标指针时，让鼠标指针自动让开，别挡住视线。很好玩阿，这个功能
@@ -72,8 +81,8 @@
 ;(set-selection-coding-system 'utf-8)
 
 ;; 设置viper模式
-;(setq viper-mode t)
-;(require 'viper)
+(setq viper-mode t)
+(require 'viper)
 
 ;; org mode 设置
 (setq org-log-done 'time) ; TODO 结束时自动加入时间

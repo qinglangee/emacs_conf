@@ -1,3 +1,19 @@
+;; 函数示例  ===========================================
+(defun testdemo nil
+  (let ((var-abc nil))
+    (setq var-abc t)
+    (when var-abc (forward-char 1))) ;; let 设置局部变量
+  (length "string-demo") ;; 返回字符串 string-demo 的长度
+  (concat "aa" "bb")     ;; 连接两个字符串
+  (forward-char 12)   ;; 光标向前移动 n 个字符
+  (backwark-char 2)   ;; 光标向后移动 n 个字符
+  (end-of-line)       ;; 光标移动到行尾
+  (newline)           ;; 插入换行符
+  ;; 查找字符串，3个参数：第一个是要查找的
+  ;; 第二个是查找的范围(nil 表示查找到 buffer 末尾)
+  ;; 第三个是标志位，如果为 t, 则在未找到时返回 nil 而不是报错。 否则未找到报错，不再向下执行
+  (search-forward "abc" nil t)
+)
 ;; 公共函数  ===========================================
 (defun zh-call-interactively (function &rest args)
   "以交互方式调用函数 FUNCTION"
@@ -79,7 +95,7 @@
 	 (in_time (offset_days offset))
 	 (liangong_from (encode-time 0 0 0 4 11 2022))
 	 (liangong_day (diff_days liangong_from in_time))
-	 (jieyan_from (encode-time 0 0 0 9 2 2025))
+	 (jieyan_from (encode-time 0 0 0 15 4 2025))
 	 (jieyan_day (diff_days jieyan_from in_time))
 	 (daily-str (format "\n\n## daily daily\n%s\n又是没练功的一天 %d 超一年了\n第%d天" (zh-lucky-number) liangong_day jieyan_day))
 	 (title-str (zh-title-str in_time 1)))
@@ -129,7 +145,17 @@ week: 是否有星期的信息，nil 没有，其它值有
 	  (setq found t)))
       (setq i (- i 1)))
     (org-cycle)) ; 执行一轮 org-cycle
-  (search-forward "## daily daily"))
+  (let ((found nil))
+    (setq found (search-forward "\n\n## daily daily" nil t)) ;; 查找字符串
+    (when found
+      (backward-char (length "\n## daily daily"))) ;; 找到就移动到上一行
+    ;; 没找到就移动到行开头, 插入一个换行
+    (unless found
+      (setq found (search-forward "## daily daily" nil t)) 
+      (when found
+	(backward-char (length "## daily daily"))
+	(newline)
+	(backward-char 1)))))
 
 (defun zh-open-note-notwork--- ()
   "在指定目录 DIR 中打开文件, 默认是 notes 目录"
@@ -149,3 +175,24 @@ week: 是否有星期的信息，nil 没有，其它值有
   (let ((default-directory "~/Documents/")) ; set the default directory to the specified one
     (ido-find-file))) ; open a file using ido interface
 
+;; 创建临时图片文件的文件名
+(defun temp_img (filename)
+  "返回连接 emacs_img_folder 与文件名的字符串"
+  (concat emacs_img_folder filename))
+
+
+(defun org-show-current-heading-tidily ()
+  "折叠其它的标题，只显示当前标题的内容"
+  (interactive)  ;Inteactive
+  "Show next entry, keeping other entries closed."
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-back-to-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (show-children)))
